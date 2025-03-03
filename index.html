@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Happy Three Months, my love 💓</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        scroll-behavior: smooth;
+      }
+      body {
+        font-family: "Poppins", sans-serif;
+        text-align: center;
+        background: linear-gradient(to right, #a1c4fd, #c2e9fb);
+        color: #333;
+        overflow: hidden;
+        position: relative;
+      }
+      .section {
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+        opacity: 0;
+        transform: translateY(30px);
+        animation: fadeInUp 1s forwards ease-out;
+        position: relative;
+      }
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .section img {
+        max-width: 80%;
+        max-height: 60vh;
+        height: auto;
+        width: auto;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        object-fit: contain;
+      }
+      .nav-button {
+        display: inline-block;
+        margin-top: 20px;
+        padding: 10px 20px;
+        background-color: #4682b4;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        text-decoration: none;
+        font-size: 18px;
+        cursor: pointer;
+        transition: transform 0.3s;
+      }
+      .nav-button:hover {
+        background-color: #315f86;
+        transform: scale(1.05);
+      }
+      .hidden {
+        display: none;
+      }
+      .love-letter {
+        font-style: italic;
+        color: darkred;
+      }
+      @keyframes floatingHearts {
+        0% {
+          transform: translateY(0);
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(-100vh);
+          opacity: 0;
+        }
+      }
+      .heart {
+        position: fixed;
+        bottom: -10px;
+        font-size: 20px;
+        color: pink;
+        animation: floatingHearts 5s linear infinite;
+      }
+    </style>
+    <script>
+      const phrases = [
+        "Are you sure?",
+        "Really Sure😢",
+        "I'll be very sad😕",
+        "You're the sunshine of my life 💐",
+        "Your smile is my favorite 🥰",
+        "You make my heart skip a beat 💓",
+        "Pookie Please🥺",
+        "Don't do this to me🫤",
+        "I'm gonna cry...😭",
+        "You are breaking my heart😭💔",
+        "My world revolves around you 🌍💖",
+        "Without you, I'm lost 😭",
+        "You’re my everything, don’t say no 🥹",
+        "Please don’t break my tiny heart 💔🥺",
+        "You're my favorite person in the universe ✨💫",
+        "I’ll buy you chocolates 🍫 if you say yes!",
+        "I can't imagine life without you 😢",
+        "Saying no should be illegal 🚨😤",
+        "Pretty please with a cherry on top? 🍒🥺",
+        "You’re too cute to say no 😘",
+      ];
+
+      let noCount = 1;
+      let currentAudio = new Audio();
+      function playMusic(song) {
+        const audioPath = `audio/${song}`; // Ensure correct relative path
+
+        if (!currentAudio.paused) {
+          let fadeOut = setInterval(() => {
+            if (currentAudio.volume > 0.1) {
+              currentAudio.volume -= 0.1;
+            } else {
+              clearInterval(fadeOut);
+              currentAudio.pause();
+              currentAudio.src = audioPath; // Set the new source
+              currentAudio.volume = 1;
+              currentAudio.play();
+            }
+          }, 100);
+        } else {
+          currentAudio.src = audioPath; // Set the new source
+          currentAudio.play();
+        }
+      }
+      function createHearts() {
+        setInterval(() => {
+          const heart = document.createElement("div");
+          heart.classList.add("heart");
+          heart.innerHTML = "❤️";
+          heart.style.left = `${Math.random() * 100}vw`;
+          heart.style.animationDuration = `${3 + Math.random() * 3}s`;
+          document.body.appendChild(heart);
+          setTimeout(() => heart.remove(), 5000);
+        }, 500);
+      }
+      document.addEventListener("DOMContentLoaded", createHearts);
+
+      function showSection(sectionId) {
+        document.querySelectorAll(".section").forEach((section) => {
+          section.classList.add("hidden");
+        });
+
+        if (sectionId === "final-no") {
+          if (noCount === 20) {
+            document.getElementById("noResponse").classList.remove("hidden");
+          } else {
+            getNoButtonText();
+            document.getElementById("final").classList.remove("hidden");
+          }
+        } else {
+          document.getElementById(sectionId).classList.remove("hidden");
+        }
+      }
+
+      function getNoButtonText() {
+        document.getElementById("no-btn").innerText =
+          phrases[getRandomNumber()];
+
+        ++noCount;
+      }
+
+      function getRandomNumber() {
+        let min = 0;
+        let max = phrases.length;
+        const now = Date.now(); // Get current timestamp in milliseconds
+        const nanoTime = performance.now(); // More precise time-based entropy
+
+        // Combine and hash the values to create more randomness
+        const seed = (now * nanoTime) % 1_000_000_007; // Large prime number
+        const randomFraction = (seed / 1_000_000_007) % 1; // Normalize to [0,1)
+
+        return Math.floor(randomFraction * (max - min)) + min;
+      }
+    </script>
+  </head>
+  <body>
+    <div id="sound" class="section">
+      <h1>Turn your sound on for the best experience of a small story !</h1>
+      <a
+        href="#intro"
+        class="nav-button"
+        onclick="playMusic('intro-ariana.mp3')"
+        >Start</a
+      >
+    </div>
+    <div id="intro" class="section">
+      <h1>
+        Hey, I have something important to ask you… but first, let's take a
+        little trip down memory lane.
+      </h1>
+      <a
+        href="#about"
+        class="nav-button"
+        onclick="playMusic('just-the-way-you-are.mp3')"
+        >Next</a
+      >
+    </div>
+    <div id="about" class="section">
+      <img src="./assets/fav_person.jpeg" alt="A lovely person" />
+      <p>
+        This is you! The most wonderful, kind, and incredible person I know. You
+        make my world brighter every single day.
+      </p>
+      <a
+        href="#first-meeting"
+        class="nav-button"
+        onclick="playMusic('enchanted-taylor.mp3')"
+        >Next</a
+      >
+    </div>
+    <div id="first-meeting" class="section">
+      <img src="./assets/placeholder.jpg" alt="Our first meeting" />
+      <p>
+        The first time we met, it felt like fate. I was nervous, but deep
+        inside, I knew you were the one 🥰.
+      </p>
+      <a
+        href="#first-date"
+        class="nav-button"
+        onclick="playMusic('til-i-met-you.mp3')"
+        >Next</a
+      >
+    </div>
+    <div id="first-date" class="section">
+      <img src="./assets/placeholder.jpg" alt="Our first date" />
+      <p>
+        Our first meeting after our roka was and still is one of the happiest days of my life. Every moment with
+        you felt so natural, so right. Photo bhi aa jaati yha pe pyari si...😕 huh!
+      </p>
+      <a
+        href="#first-hands"
+        class="nav-button"
+        onclick="playMusic('bad-wave-to-earth.mp3')"
+        >Next</a
+      >
+    </div>
+    <div id="first-hands" class="section">
+      <img src="./assets/us_holding_hands.jpeg" alt="Our first holding hands" />
+      <p>
+        The first time I held your hand, my heart raced. It was like the world
+        stopped, and it was just us.
+      </p>
+      <a
+        href="#first-event"
+        class="nav-button"
+        onclick="playMusic('the-scientist-coldplay.mp3')"
+        >Next</a
+      >
+    </div>
+    <div id="first-event" class="section">
+      <img src="./assets/placeholder.jpg" alt="Our first event" />
+      <p>
+        Watching you brings a shine on my face and inspire me every day, to love
+        you even more and more.
+      </p>
+      <a
+        href="#first-valentine"
+        class="nav-button"
+        onclick="playMusic('i-think-think-they-call-this-love.mp3')"
+        >Next</a
+      >
+    </div>
+    <div id="first-valentine" class="section">
+      <img src="./assets/placeholder.jpg" alt="Our first Valentine’s Day" />
+      <p>
+        Our first Valentine’s was pure magic. I felt so lucky
+        to have you.
+      </p>
+      <a
+        href="#future"
+        class="nav-button"
+        onclick="playMusic('Thousand-Years-Instrumental.mp3')"
+        >Next</a
+      >
+    </div>
+    <div id="future" class="section">
+      <img
+        style="scale: 1.2"
+        src="./assets/milk-and-mocha-bears-comfort-hug.gif"
+        alt="Future dreams"
+      />
+      <p>
+        I can’t wait to create more memories with you, to share laughter,
+        adventures, sadness and dreams together.
+      </p>
+      <a href="#final" class="nav-button" onclick="playMusic('with-you.mp3')"
+        >Next</a
+      >
+    </div>
+    <div id="final" class="section">
+      <h2>
+        So… here’s my big question: Will you keep loving me more and more with everyday
+        passing day ? ❤️
+      </h2>
+      <button
+        class="nav-button"
+        onclick="playMusic('pov-ariana.mp3'); showSection('love')"
+      >
+        Yes
+      </button>
+      <button id="no-btn" class="nav-button" onclick="showSection('final-no')">
+        No 🙉
+      </button>
+    </div>
+    <div id="love" class="section hidden">
+      <h2>Yay! I love you! ❤️</h2>
+      <img src="./assets/huggie.gif" alt="Celebration" />
+    </div>
+    <div id="noResponse" class="section hidden">
+      <h2>
+        It's okay, I understand, My love will be sufficient for both of us ❤️
+      </h2>
+      <img src="./assets/sad_cat_face.gif" alt="Supportive Hug" />
+      <p>No matter what, you're still amazing!</p>
+    </div>
+  </body>
+</html>
