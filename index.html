@@ -122,6 +122,7 @@
 
       let noCount = 1;
       let currentAudio = new Audio();
+      currentAudio.id = "song";
       function playMusic(song) {
         const audioPath = `audio/${song}`; // Ensure correct relative path
 
@@ -153,7 +154,27 @@
           setTimeout(() => heart.remove(), 5000);
         }, 500);
       }
-      document.addEventListener("DOMContentLoaded", createHearts);
+      document.addEventListener("DOMContentLoaded", function () {
+        createHearts();
+
+        window.addEventListener("focus", function () {
+          currentAudio.play();
+        });
+
+        window.addEventListener("blur", function () {
+          currentAudio.pause();
+        });
+
+        document.addEventListener("visibilitychange", function () {
+          if (document.hidden) {
+            currentAudio.pause();
+          } else {
+            currentAudio.play();
+          }
+        });
+
+      }
+    );
 
       function showSection(sectionId) {
         document.querySelectorAll(".section").forEach((section) => {
@@ -245,8 +266,9 @@
       <img src="./assets/placeholder.jpg" alt="Our first date" />
       <p>
         Our first meeting after our roka was and still is one of the happiest days of my life. Every moment with
-        you felt so natural, so right. Photo bhi aa jaati yha pe pyari si...😕 huh!
+        you felt so natural, so right. 
       </p>
+      <span style="font-size: small;">(Photo bhi aa jaati yha pe pyari si...😕 huh!)</span>
       <a
         href="#first-hands"
         class="nav-button"
